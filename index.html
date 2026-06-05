@@ -414,7 +414,7 @@
             }
         ];
 
-        // 🌟 완벽한 100권 도서 대형 라이브러리 구축 (유형별 25권씩)
+        // 100권 도서 데이터베이스
         const categoryDetails = {
             "A": {
                 name: "스릴만점 프로 추적러",
@@ -434,7 +434,7 @@
                     { title: "가면산장 살인사건", desc: "반전에 반전을 거듭하는 히가시노 게이고의 영리하고 짜릿한 밀실 미스터리." },
                     { title: "디 오더", desc: "바티칸을 배경으로 펼쳐지는 전직 첩보원의 비밀스러운 음모 추적 스릴러." },
                     { title: "돌이킬 수 없는 약속", desc: "과거에 했던 위험한 약속이 편지가 되어 돌아오며 숨통을 조여오는 복수극." },
-                    { title: "테라피", desc: "정신과 의사의 사라진 딸을 둘러싼 왜곡된 기억과 충격적인 심리 반전 스릴러." },
+                    { title: "테라피", desc: "정신과 의사의 사라진 딸을 둘러싼 왜곡된 기억และ 충격적인 심리 반전 스릴러." },
                     { title: "나를 찾아줘", desc: "완벽해 보이던 부부의 실종 사건 뒤에 숨겨진 잔혹하고 영리한 심리 싸움." },
                     { title: "밀레니엄 시리즈", desc: "천재 해커 리스베트와 기자 미카엘이 부패한 권력의 거대 음모를 파헤치는 스릴러." },
                     { title: "본 아이덴티티", desc: "기억을 잃은 최고의 인간 병기가 자신의 정체성을 찾아 떠나는 스릴 넘치는 액션 첩보 소설." },
@@ -526,7 +526,7 @@
                     { title: "지적 대화를 위한 넓고 얕은 지식", desc: "역사, 경제, 정치, 사회를 단 한 권으로 꿰뚫어 교양의 기초를 다져주는 책." },
                     { title: "코스모스", desc: "우주의 광활함과 인류의 위대한 역사를 문학적인 언어로 담아낸 천문학 교양의 최고봉." },
                     { title: "정의란 무엇인가", desc: "구체적인 도덕적 딜레마를 통해 우리 사회에서 '올바른 선택'이란 무엇인가에 대해 질문하는 책." },
-                    { title: "역사의 인간들", desc: "세계사의 물줄기를 바꾼 인물들의 결정적 순간과 그들의 선택이 남긴 교훈적 메시지." },
+                    { title: "역사의 인간들", desc: "세계사의 물줄기를 바꾼 인물들의 결정적 순간และ 그들의 선택이 남긴 교훈적 메시지." },
                     { title: "인간관계론", desc: "사람의 마음을 사로잡고 성공적인 인간관계를 이끌어내는 데일 카네기의 불멸의 고전." },
                     { title: "생각에 관한 생각", desc: "인간의 직관과 이성이 어떻게 작동하고 오류를 범하는지 밝혀내는 행동경제학 거장의 통찰." },
                     { title: "그릿 (GRIT)", desc: "성공을 결정짓는 것은 천재적인 재능이 아니라, 끝까지 해내고야 마는 열정과 끈기임을 증명하는 책." },
@@ -586,11 +586,13 @@
             }
         }
 
-        // 피셔-예이츠 셔플 알고리즘으로 완벽한 무작위 섞기 기능 구현
+        // 🌟 [수정 포인트] 완벽한 무작위성을 보장하는 피셔-예이츠 셔플 알고리즘
         function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
             }
             return array;
         }
@@ -622,16 +624,16 @@
 
             let recommendedBooks = [];
             
-            // 복사본을 만들어 완벽하게 랜덤으로 섞음
+            // 기존 배열을 오염시키지 않기 위해 복사본을 만들어 완벽하게 섞음
             const shuffledTop1Books = shuffle([...categoryDetails[top1].books]);
             const shuffledTop2Books = shuffle([...categoryDetails[top2].books]);
 
-            // 1위 카테고리에서 랜덤 2권 추출
+            // 1위 카테고리에서 진짜 랜덤으로 2권 추출
             shuffledTop1Books.slice(0, 2).forEach(b => {
                 recommendedBooks.push({ ...b, tag: nameMap[top1] });
             });
 
-            // 2위 카테고리에서 랜덤 1권 추출
+            // 2위 카테고리에서 진짜 랜덤으로 1권 추출
             shuffledTop2Books.slice(0, 1).forEach(b => {
                 recommendedBooks.push({ ...b, tag: nameMap[top2] });
             });
